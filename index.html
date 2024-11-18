@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/modal.css"/>
+    <link rel="stylesheet" href="css/calendrier.css"/>
+    <link rel="stylesheet" href="css/drawings.css"/>
+
+    <script type="module" src="javascript/main.js" defer></script>
+
+    <title>Journal</title>
+</head>
+
+<body>
+    <main>
+        <!-- <h1 class="pageTitle">Dessiner au Fil des Jours</h1> -->
+        <button class="button" onclick="openModal('add-session-modal')">
+            Ajouter une session
+        </button>
+        <!-- Modal for adding sessions -->
+        <div id="add-session-modal" class="modal">
+            <div class="modal-content">
+                <button class="close" onclick="closeModal('add-session-modal')">
+                    &times;
+                </button>
+                <h2>Ajouter une session</h2>
+                <form id="add-session-form">
+                    <label for="session-date">Date :</label>
+                    <input type="date" id="session-date" required />
+                    <label for="session-start-time">Heure de début :</label>
+                    <input type="time" id="session-start-time" required />
+                    <label for="session-end-time">Heure de fin :</label>
+                    <input type="time" id="session-end-time" required />
+                    <label for="session-note">Note personnelle :</label>
+                    <textarea id="session-note" rows="4" required></textarea>
+                    <label for="session-theme">Thème :</label>
+                    <input type="text" id="session-theme" required />
+                    <button type="submit">Ajouter la séance</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal for adding drawings -->
+        <div id="add-drawing-modal" class="modal">
+            <div class="modal-content">
+                <button class="close" onclick="closeModal('add-drawing-modal')">
+                    &times;
+                </button>
+                <h2>Ajouter un dessin</h2>
+                <form id="add-drawing-form">
+                    <label for="drawing-title">Titre :</label>
+                    <input type="text" id="drawing-title" required />
+                    <label for="drawing-image">Image :</label>
+                    <input type="file" id="drawing-image" accept="image/*" required />
+                    <label for="drawing-start-time">Heure de début :</label>
+                    <input type="time" id="drawing-start-time" required />
+                    <label for="drawing-end-time">Heure de fin :</label>
+                    <input type="time" id="drawing-end-time" required />
+                    <button type="submit">Ajouter le dessin</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal for deleting sessions -->
+        <div id="delete-session-modal" class="modal">
+            <div class="modal-content">
+                <button class="close" onclick="closeModal('delete-session-modal')">
+                    &times;
+                </button>
+                <h2>Supprimer une séance</h2>
+                <form id="delete-session-form">
+                    <label for="delete-session-id">ID de la séance :</label>
+                    <input type="number" id="delete-session-id" required />
+                    <button type="submit">Supprimer la séance</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal for deleting drawings -->
+        <div id="delete-drawing-modal" class="modal">
+            <div class="modal-content">
+                <button class="close" onclick="closeModal('delete-drawing-modal')">
+                    &times;
+                </button>
+                <h2>Supprimer un dessin</h2>
+                <form id="delete-drawing-form">
+                    <label for="delete-drawing-id">ID du dessin :</label>
+                    <input type="number" id="delete-drawing-id" required />
+                    <button type="submit">Supprimer le dessin</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal pour afficher les dessins (Vignettes) -->
+        <!-- <div id="view-vignettes-modal" class="modal">
+            <div class="modal-content">
+                <button class="close" onclick="closeModal('view-vignettes-modal')">
+                    &times;
+                </button>
+                <h2>Les dessins de la séance</h2>
+                <div id="drawings-container-vignettes" class="drawings-grid"></div>
+            </div>
+        </div> -->
+
+        <!-- Modal pour afficher les dessins (Vignettes) -->
+        <!-- <div id="view-carousel-modal" class="modal">
+            <button class="prev carousel" onclick="showPrevImage()">
+                &#10094;
+            </button>
+            <div id="carousel-images" class="carousel-images"></div>
+            <button class="next carousel" onclick="showNextImage()">
+                &#10095;
+            </button>
+        </div> -->
+
+        <div class="calendar-container">
+            <!-- Conteneur du calendrier -->
+            <div class="calendar-header">
+                <button class="arrow left" onclick="changeMonth(-1)">&#8249;</button>
+                <span id="calendar-month">Novembre 2024</span>
+                <button class="arrow right" onclick="changeMonth(1)">&#8250;</button>
+            </div>
+            
+            <!-- Calendrier en grille -->
+            <div id="calendar" class="calendar-grid">
+
+                <!-- Les cellules du calendrier vont ici, ajoutées dynamiquement via JS -->
+            </div>
+        </div>
+        
+    </main>
+</body>
+</html>

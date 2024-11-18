@@ -1,0 +1,59 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #cfe0ef;;
+}
+
+/* .pageTitle {
+    text-align: center;
+} */
+
+/* #card-container {
+    margin: 70px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 100px;
+}
+
+#card-container>* {
+    display: grid;
+    background-color: aliceblue;
+    padding: 20px;
+    border: 2px solid;
+    border-radius: 20px;
+    box-shadow: 12px 12px black;
+    box-sizing: border-box;
+    width: 400px;
+}
+
+#card-container .note {
+    color: gray;
+    font-style: italic;
+} */
+
+/* #card-container div:last-child {
+    align-self: center;
+    max-height: min-content;
+} */
+
+/* .titleCard {
+    text-align: center;
+} */
+
+/* #moreNoteCard {
+    height: 100px;
+    width: 100px;
+    place-self: center;
+}
+
+#moreNoteCard:hover {
+    opacity: 0.6;
+    cursor: pointer;
+} */
+
