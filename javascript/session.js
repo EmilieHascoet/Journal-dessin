@@ -1,6 +1,7 @@
 import { renderCalendar } from "./calendrier.js";
-import { closeModal } from "./modal.js";
-import { generateDateId, calculateTimeDifference } from "./utils.js";
+import { closeModal, openModal } from "./modal.js";
+import { generateDateId, calculateTimeDifference, formatDateFromId } from "./utils.js";
+import { getDatabase } from "./main.js";
 
 export function addSession(db, date, notePersonnelle, theme, heureDebut, heureFin) {
     const dateId = generateDateId(date);
@@ -42,6 +43,8 @@ export function addSession(db, date, notePersonnelle, theme, heureDebut, heureFi
 }
 
 export function deleteSession(sessionId) {
+    sessionId = parseInt(sessionId, 10);
+    const db = getDatabase();
     const transaction = db.transaction(["Session", "Dessin", "Date"], "readwrite");
     const sessionStore = transaction.objectStore("Session");
     const drawingStore = transaction.objectStore("Dessin");
@@ -49,6 +52,9 @@ export function deleteSession(sessionId) {
 
     sessionStore.get(sessionId).onsuccess = (event) => {
         const session = event.target.result;
+        console.log('event', event);
+        console.log('event.target', event.target);
+        console.log('event.target.result', event.target.result);
 
         if (session) {
             const dateId = session.dateId;
@@ -89,4 +95,49 @@ export function deleteSession(sessionId) {
             };
         }
     };
+}
+
+export function openSessionDetailsModal(dateId) {
+    // Met à jour le titre avec la date
+    document.getElementById('session-date-title').textContent = `Sessions du ${formatDateFromId(dateId)}`;
+
+    // Récupère les données depuis la base de données
+    const db = getDatabase(); // Assure-toi que cette fonction est bien définie
+    const transaction = db.transaction(["Session"], "readonly");
+    const store = transaction.objectStore("Session");
+    const index = store.index("dateId");
+    const sessionsContainer = document.getElementById('session-details-container');
+    sessionsContainer.innerHTML = ''; // Réinitialise les sessions précédentes
+    index.getAll(dateId).onsuccess = (event) => {
+        const sessions = event.target.result;
+        if (sessions.length > 0) {
+            sessions.forEach(session => {
+                // Crée un élément pour chaque session
+                const sessionElement = document.createElement('div');
+                sessionElement.classList.add('session-item');
+                sessionElement.innerHTML = `
+                    <p><strong>Horaires :</strong> ${session.heureDebut} - ${session.heureFin}</p>
+                    <p><strong>Theme :</strong> ${session.theme}</p>
+                    <p><strong>Note personnelle :</strong> ${session.notePersonnelle}</p>
+                    <button class="delete-session-btn" data-session-id="${session.id}">Supprimer</button>
+                `;
+                sessionsContainer.appendChild(sessionElement);
+            });
+
+            // Ajoute les événements pour les boutons "Supprimer"
+            const deleteButtons = document.querySelectorAll('.delete-session-btn');
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const sessionId = button.getAttribute('data-session-id');
+                    deleteSession(sessionId);
+                    openSessionDetailsModal(dateId); // Rafraîchir après suppression
+                });
+            });
+        } else {
+            sessionsContainer.innerHTML = '<p>Aucune session trouvée.</p>';
+        }
+    };
+    
+    // Affiche le modal
+    openModal('session-details-modal')
 }

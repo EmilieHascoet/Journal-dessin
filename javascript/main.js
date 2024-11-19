@@ -11,7 +11,7 @@ import { addSession, deleteSession } from './session.js';
 let db;
 
 // Initialiser la base de données
-const request = indexedDB.open("DrawingTracker", 1);
+const request = indexedDB.open("DrawingTracker", 2);
 
 request.onupgradeneeded = (event) => {
     db = event.target.result;
@@ -31,6 +31,7 @@ request.onerror = () => {
 // Gestion des modals (fermeture automatique, etc.)
 setupModalHandlers();
 
+// Gestion des formulaires
 document.getElementById('add-session-form').addEventListener('submit', (event) => {
     event.preventDefault();
 

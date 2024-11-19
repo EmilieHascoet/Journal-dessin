@@ -12,7 +12,7 @@ export function addDrawing(db, title, image, heureDebut, heureFin) {
     const sessionStore = transaction.objectStore("Session");
     const dateStore = transaction.objectStore("Date");
 
-    drawingStore.add({ sessionId: currentSessionId, titre: title, image, heureDebut, heureFin, temps }).onsuccess = () => {
+    drawingStore.add({ sessionId: getCurrentSessionId(), titre: title, image, heureDebut, heureFin, temps }).onsuccess = () => {
         sessionStore.get(sessionId).onsuccess = (event) => {
             const session = event.target.result;
 

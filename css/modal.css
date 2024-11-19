@@ -84,3 +84,8 @@ button[type="submit"] {
 button[type="submit"]:hover {
     background-color: rgb(65, 138, 213);
 }
+
+#session-details-container {
+    display: grid;
+    gap: 20px;
+}

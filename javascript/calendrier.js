@@ -1,5 +1,6 @@
 import { formatDateFromId, formatMinutes, generateDateId } from './utils.js';
 import { getDatabase } from './main.js';
+import { openSessionDetailsModal } from './session.js';
 
 let currentMonth = new Date().getMonth(); // Mois actuel
 let currentYear = new Date().getFullYear(); // Année actuelle
@@ -36,14 +37,16 @@ export function renderCalendar() {
             const cell = document.createElement("div");
             cell.classList.add("cell");
 
+            const date = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(dateCell).padStart(2, '0')}`;
+            const dateId = generateDateId(date);
+            cell.setAttribute('data-date', dateId);
+
             if (i === 0 && j < startDay) {
                 calendarGrid.appendChild(cell); // Cellules vides avant le premier jour du mois
             } else if (dateCell <= monthDays) {
-                const date = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(dateCell).padStart(2, '0')}`;
                 cell.textContent = dateCell;
 
                 // Vérifier si la date est dans la base de données et afficher les données
-                const dateId = generateDateId(date);
                 checkDataForDate(dateId, cell);
 
                 dateCell++;
@@ -51,6 +54,7 @@ export function renderCalendar() {
             }
         }
     }
+    attachCellClickEvents();
 }
 
 // Fonction pour changer de mois
@@ -85,4 +89,16 @@ function checkDataForDate(dateId, cell) {
             cell.appendChild(recap);
         }
     };
+}
+
+function attachCellClickEvents() {
+    const calendarDays = document.querySelectorAll('.cell'); // Sélectionne toutes les cellules avec des dates
+    calendarDays.forEach(cell => {
+        cell.addEventListener('click', () => {
+            const date = cell.getAttribute('data-date'); // Récupère la date associée à la cellule
+            if (date) {
+                openSessionDetailsModal(date);
+            }
+        });
+    });
 }
